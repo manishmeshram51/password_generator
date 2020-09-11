@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+    <title>Hello, world!</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{% url 'index' %}">Password Generator</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Features</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Pricing</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <center>
+        <div id="alertSlide" ></div>
+    </center>
+
+    <div class="container mt-4">
+
+        <center>
+            <div id="articles" class="mt-4">
+                <!-- Password GENERATED WILL BE HERE  -->
+            </div>
+        </center>
+
+        <h1 class="d-flex justify-content-center mt-4"> Want To Generate Your Password ? </h1>
+        <hr class="border-dark">
+        <form id='form' class="mt-4" method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Email address</label>
+                <input id="email" type="email" class="form-control border-warning" id="exampleFormControlInput1"
+                    placeholder="name@example.com" name="email">
+            </div>
+
+            <div class="form-group mt-4">
+                <label for="exampleFormControlSelect1">Select Password Length</label>
+                <select id="lengthSelect" class="form-control border-warning" name="lengthSelect">
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12" selected="selected">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="13">17</option>
+                    <option value="14">18</option>
+                    <option value="15">19</option>
+                    <option value="16">20</option>
+
+                </select>
+            </div>
+
+            <div class="form-group mt-4">
+                <label for="featureLabel">Select Features</label>
+
+                <div class="form-check ">
+                    <input id="numbers" class="form-check-input " type="checkbox" value="ON" name="numbers">
+                    <label class="form-check-label">Numbers </label>
+                </div>
+
+                <div class="form-check ">
+                    <input id="speaciaChar" class="form-check-input" type="checkbox" value="ON" name="specialCharaters">
+                    <label class="form-check-label">Speacial Character</label>
+                </div>
+
+                <div class="form-check ">
+                    <input id="uppercase" class="form-check-input" type="checkbox" value="ON" name="uppercase">
+                    <label class="form-check-label">UPPERCASE Characters</label>
+                </div>
+
+            </div>
+            <hr class="border-dark">
+            <div class="form-group row mt-4">
+                <div class="col-sm-10">
+                    <button id="submit" type="submit" class="btn btn-warning">Generate Password</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- custome scricpt  -->
+    <script>
+        $(document).ready(function () {
+            $('#form').on('submit', function (e) {
+                e.preventDefault();
+
+                // console.log("just check");
+                let formData = new FormData()
+
+                formData.append("csrfmiddlewaretoken", "{{csrf_token}}");
+                
+                formData.append("email", $('#email').val());
+                formData.append("lengthSelect", $('#lengthSelect').val());
+                formData.append("numbers", $('#numbers').prop("checked") ? $('#numbers').val() : 'OFF' );
+                formData.append("specialCharacter", $('#speaciaChar').prop("checked") ? $('#speaciaChar').val() : 'OFF');
+                formData.append("uppercase", $('#uppercase').prop("checked") ? $('#uppercase').val() : 'OFF');
+
+                // console.log("Form successfully submitted!", $('#soecia').val());
+
+                $.ajax({
+                    url: "{% url 'generate_password'%}",
+                    dataType: 'json',
+                    cache: false,
+                    async: true,
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    type: 'POST',
+                    success: function (response) {
+
+                        // $("#form")[0].reset();
+                        $("#articles").empty();
+                        response = response;
+
+                        // $.each(response, function () { });
+                        // <h3 class="name">${data.email}</h3>
+                        data = response;
+
+                        html = `
+                            <div class="col-sm-12 col-md-12 border border-dark bg-warning text-dark" style="height:100px;">
+                                <br>
+                                <h1 class="description"> ${data.generated_password}</h1>
+                            </div>
+                            `;
+                        $("#articles").append(html);
+
+
+
+                        $("#alertSlide").html('<div class="alert alert-success mb-0"><button type="button" class="close">×</button>New Password Generated!!!</div>');
+                        window.setTimeout(function () {
+                            $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                                $(this).remove();
+                            });
+                        }, 5000);
+                        $('.alert .close').on("click", function (e) {
+                            $(this).parent().fadeTo(500, 0).slideUp(500);
+                        });
+
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        var errorMsg = 'Ajax request failed: ' + xhr.responseText;
+                        let html = `<div class="alert alert-success mb-0">
+                                    <button type="button" class="close">×</button>
+                                    ${errorMsg}
+                                </div>
+                                `
+                        $("#alertSlide").html(html);
+                        window.setTimeout(function () {
+                            $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                                $(this).remove();
+                            });
+                        }, 5000);
+                        $('.alert .close').on("click", function (e) {
+                            $(this).parent().fadeTo(500, 0).slideUp(500);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>

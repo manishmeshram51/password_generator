@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Captionizer</title>
+    <link rel="shortcut icon" href="#">
+
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'fonts/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'fonts/ionicons.min.css' ) }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'css/Article-List.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'css/Contact-Form-Clean.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'css/Navigation-Clean.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'css/Footer-Dark.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename = 'css/styles.css') }}">
+
+</head>
+
+<body>
+    <div class="sticky-top">
+    <nav class="navbar navbar-dark navbar-expand-md navigation-clean bg-dark">
+        <div class="container"><a class="navbar-brand" href="{{url_for('index')}}">
+                <i class="fa fa-globe"></i>&nbsp;Captionizer</a>
+            <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" href="{{url_for('index')}}"><i class="fa fa-home"></i>&nbsp;Home</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" href="{{url_for('contact')}}">
+                            <i class="fa fa-phone"></i>&nbsp;Contact Us
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" href="{{url_for('about')}}">
+                            <i class="fa fa-heart"></i>&nbsp;About Us
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    </div>
+
+    <!-- altert -->
+    <center>
+        <div id="result"></div>
+    </center>
+    <!-- alert ends -->
+
+    <!-- for taking input -->
+    <div class="contact-clean">
+        <br>
+        <form id="form" method="post" enctype="multipart/form-data">
+
+            <h2 class="text-center">Upload Image</h2>
+            <div class="form-group">
+                <input class="form-control is-invalid" type="email" id='email' name="email" placeholder="Email">
+            </div>
+
+            <div class="form-group">
+                <input type="file" id="photos" name="photos[]" accept="image/*" multiple>
+            </div>
+            <div class="form-group">
+                <button id="upload" class="btn btn-primary" type="submit">UPLOAD</button>
+            </div>
+        </form>
+        <br><br>
+    </div>
+
+    <!-- input form ends -->
+
+    <!-- latest image -->
+    <div>
+        <div class="article-list">
+
+            <div class="container">
+                <div class="intro">
+                    <h2 class="text-center">Latest Caption</h2>
+                </div>
+                <div class="row articles">
+                    <div class="col-md-2"></div>
+                    <div id="highlight" class="col-md-8 ">
+
+
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            </div>
+        </div>
+        <!--  latest image-->
+
+
+        <!-- older iamges -->
+        <div class="article-list">
+            <div class="container">
+                <div class="intro">
+                    <h2 class="text-center">Generated Captions</h2>
+                    <p class="text-center"> Captions are brief text descriptions that you can add to your images. They
+                        are typically used to provide additional details about an image. </p>
+                </div>
+                <div class="row articles" id="articles">
+                    <!-- captions data here -->
+
+                </div>
+            </div>
+        </div>
+        <!-- older iamges ends-->
+
+        <button id="myBtn" title="Go to top"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+        <!-- footer  -->
+        <div class="footer-dark">
+            <footer>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3 item">
+                            <h3>Services</h3>
+                            <ul>
+                                <li><a href="#">Web design</a></li>
+                                <li><a href="#">Development</a></li>
+                                <li><a href="#">Hosting</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-6 col-md-3 item">
+                            <h3>About</h3>
+                            <ul>
+                                <li><a href="#">Company</a></li>
+                                <li><a href="#">Team</a></li>
+                                <li><a href="#">Careers</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6 item text">
+                            <h3>Captionizer</h3>
+                            <p> Captions are brief text descriptions that you can add to your images. They are typically
+                                used to provide additional details about an image.</p>
+                        </div>
+                        <div class="col item social">
+                            <a href="#"><i class="icon ion-social-facebook"></i></a>
+                            <a href="#"><i class="icon ion-social-twitter"></i></a>
+                            <a href="#"><i class="icon ion-social-snapchat"></i></a>
+                            <a href="#"><i class="icon ion-social-instagram"></i></a>
+                        </div>
+                    </div>
+                    <p class="copyright">Captionizer © 2020</p>
+                </div>
+            </footer>
+        </div>
+        <!-- footer ends -->
+
+        <script src="{{ url_for('static',filename = 'js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static',filename = 'bootstrap/js/bootstrap.min.js') }}"></script>
+        <script src="{{ url_for('static',filename = 'js/myjs.js') }}"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#form').on('submit', function (e) {
+                    e.preventDefault();
+
+                    let formData = new FormData()
+                    var img = document.getElementById('photos').files.length;
+                    if (img == 0) {
+                        $('#msg').html('<span style="color:red">Select at least one file</span>');
+                        return;
+                    }
+
+                    for (var x = 0; x < img; x++) {
+                        formData.append("photos[]", document.getElementById('photos').files[x]);
+                    }
+
+                    formData.append("email", $('#email').val());
+                    formData.append("label", $('#label').val());
+
+                    console.log("Form successfully submitted!", $('#email').val());
+
+                    $.ajax({
+                        url: "{{url_for('upload')}}",
+                        dataType: 'json',
+                        cache: false,
+                        async: true,
+                        contentType: false,
+                        processData: false,
+                        data: formData,
+                        type: 'POST',
+                        success: function (response) {
+                            $("#form")[0].reset();
+                            $('#articles').html('');
+                            $('#highlight').html('');
+
+                            response = response.data;
+                            $.each(response, function (index) {
+                                data = response[index];
+
+                                html = `
+                                <div class="col-sm-6 col-md-4 item">
+                                    <a href="#">
+                                        <img class="card-img-top" style="height=300px;" src="static/img/${data.image}?${Math.random()} ">
+                                    </a>
+                                    <h3 class="name">${data.label}</h3>
+                                    <p class="description"> ${data.caption}</p>
+                                </div>
+                                `;
+                                $("#articles").append(html);
+
+                                if (index == '0') {
+                                    data = response[index];
+
+                                    html = `
+                                    <div class="card">
+                                        <img class="card-img-top w-100 d-block" style="padding:30px;height:400px" src="static/img/${data.image}?${Math.random()} ">
+                                        <div class="card-body">
+                                            <h4 class="card-title">${data.label}</h4>
+                                            <p class="card-text"> ${data.caption}  </p>
+                                    </div>
+                                    </div>
+                                `;
+                                    $("#highlight").append(html);
+                                }
+                            });
+                            $("#result").html('<div class="alert alert-success mb-0"><button type="button" class="close">×</button>Caption Generated!</div>');
+                            window.setTimeout(function () {
+                                $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                                    $(this).remove();
+                                });
+                            }, 5000);
+                            $('.alert .close').on("click", function (e) {
+                                $(this).parent().fadeTo(500, 0).slideUp(500);
+                            });
+                            
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                        var errorMsg = 'Ajax request failed: ' + xhr.responseText;
+                        let html = `<div class="alert alert-success mb-0">
+                                        <button type="button" class="close">×</button>
+                                        ${errorMsg}
+                                    </div>
+                                    `
+                        $("#result").html(html);
+                            window.setTimeout(function () {
+                                $(".alert").fadeTo(500, 0).slideUp(500, function () {
+                                    $(this).remove();
+                                });
+                            }, 5000);
+                            $('.alert .close').on("click", function (e) {
+                                $(this).parent().fadeTo(500, 0).slideUp(500);
+                            });
+                    }
+                    });
+                });
+            });
+
+            $(document).ready(function () {
+                //Perform Ajax request.
+                $.ajax({
+                    url: "{{url_for('load')}}",
+                    dataType: 'json',
+                    cache: false,
+                    async: true,
+                    type: 'POST',
+                    success: function (response) {
+                        $("#form")[0].reset();
+                        $('#articles').html('');
+                        $('#highlight').html('');
+                        response = response.data;
+                        len = response.length;
+
+                        $.each(response, function (index) {
+                            data = response[index];
+                            // console.log("index", index);
+                            html = `
+                                <div class="col-sm-6 col-md-4 item">
+                                    <a href="#">
+                                        <img class="card-img-top" style="height=300px;" src="static/img/${data.image}?${Math.random()} ">
+                                    </a>
+                                    <h3 class="name">${data.label}</h3>
+                                    <p class="description"> ${data.caption}</p>
+                                </div>
+                                `;
+                            $("#articles").append(html);
+                            if (index == '0') {
+                                data = response[index];
+
+                                html = `
+                                    <div class="card">
+                                        <img class="card-img-top w-100 d-block" style="padding:30px;height:400px" src="static/img/${data.image}?${Math.random()} ">
+                                        <div class="card-body text-center">
+                                            <h4 class="card-title">${data.label}</h4>
+                                            <p class="card-text "> ${data.caption}  </p>
+                                    </div>
+                                    </div>
+                                `;
+                                $("#highlight").append(html);
+                            }
+                        });
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        var errorMsg = 'Ajax request failed: ' + xhr.responseText;
+                        $('#content').html(errorMsg);
+                    }
+                });
+            });
+        </script>
+</body>
+
+</html>
